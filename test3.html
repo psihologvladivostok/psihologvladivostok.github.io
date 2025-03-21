@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вставка HTML-кода</title>
+</head>
+<body>
+    <div id="content">
+        <!-- Сюда будет вставлен HTML-код -->
+        <p>Загрузка данных...</p>
+    </div>
+
+    <!-- iframe без src, чтобы загрузка началась только после выполнения скрипта -->
+    <iframe id="contentFrame" style="width:100%; height:500px; border:none;"></iframe>
+
+    <script>
+        const iframe = document.getElementById('contentFrame');
+        const primaryUrl = 'https://error-domain-name-0000.com/'; // Основной URL
+        const fallbackUrl = 'https://alib.ru'; // Резервный URL
+        const timeoutDuration = 5000; // Тайм-аут 5 секунд
+
+        let isLoaded = false; // Флаг для отслеживания загрузки
+
+        // Обработчик успешной загрузки iframe
+        iframe.onload = () => {
+            isLoaded = true;
+            console.log('Контент загружен');
+        };
+
+        // Обработчик ошибки загрузки iframe
+        iframe.onerror = () => {
+            if (!isLoaded) {
+                console.log('Ошибка загрузки основного контента, переключаемся на резервный...');
+                iframe.src = fallbackUrl; // Переключаемся на резервный URL
+            }
+        };
+
+        // Начинаем загрузку iframe
+        iframe.src = primaryUrl;
+
+        // Таймер для обработки ошибок, если iframe не загрузился за указанное время
+        setTimeout(() => {
+            if (!isLoaded) {
+                console.log('Тайм-аут: Основной контент не загрузился, переключаемся на резервный...');
+                iframe.src = fallbackUrl; // Переключаемся на резервный URL
+            }
+        }, timeoutDuration);
+    </script>
+</body>
+</html>
