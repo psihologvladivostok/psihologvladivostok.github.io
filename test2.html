@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вставка HTML-кода</title>
+</head>
+<body>
+    <div id="content">
+        <!-- Сюда будет вставлен HTML-код -->
+        <p>Загрузка данных...</p>
+    </div>
+
+    <iframe id="contentFrame" src="https://error-domain-name-0000.com/" style="width:100%; height:500px; border:none;"></iframe>
+
+    <script>
+        const iframe = document.getElementById('contentFrame');
+        const fallbackUrl = 'https://alib.ru'; // Резервный URL
+        const timeoutDuration = 5000; // Тайм-аут 5 секунд
+
+        let isLoaded = false; // Флаг для отслеживания загрузки
+
+        // Обработчик успешной загрузки iframe
+        iframe.onload = () => {
+            isLoaded = true;
+            console.log('Контент загружен');
+        };
+
+        // Таймер для обработки ошибок
+        setTimeout(() => {
+            if (!isLoaded) {
+                console.log('Ошибка загрузки основного контента, переключаемся на резервный...');
+                iframe.src = fallbackUrl; // Переключаемся на резервный URL
+            }
+        }, timeoutDuration);
+    </script>
+</body>
+</html>
