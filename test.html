@@ -6,51 +6,56 @@
     <title>Вставка HTML-кода</title>
 </head>
 <body>
-    <div id="content">
-        <!-- Сюда будет вставлен HTML-код -->
-        <p>Загрузка данных...</p>
-    </div>
-
     <script>
-        // Функция для вставки HTML-кода
-        function insertHtml(url, elementId) {
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Сеть ответила ошибкой');
-                    }
-                    return response.text(); // Получаем HTML как текст
-                })
-                .then(html => {
-                    // Вставляем HTML в элемент
-                    document.getElementById(elementId).innerHTML = html;
-                })
-                .catch(error => {
-                    console.error(`Ошибка при загрузке ${url}:`, error);
-                    return Promise.reject(error); // Продолжаем цепочку ошибок
-                });
-        }
+        // Устанавливаем document.domain
+        document.domain = 'психолог-владивосток.рф';
+    </script>
 
-        // Основная функция для загрузки данных
-        function loadContent() {
-            const primaryUrl = 'https://alib.ru/'; // Основной URL
-            const fallbackUrl = 'https://www.sheldonbrown.com/web_sample1.html'; // Резервный URL
+        <div id="content">
+            <!-- Сюда будет вставлен HTML-код -->
+            <p>Загрузка данных...</p>
+        </div>
 
-            // Пытаемся загрузить с основного URL
-            insertHtml(primaryUrl, 'content')
-                .catch(() => {
-                    // Если основной URL недоступен, загружаем с резервного
-                    console.log('Попытка загрузки с резервного URL...');
-                    return insertHtml(fallbackUrl, 'content');
-                })
-                .catch(() => {
-                    // Если оба URL недоступны, показываем сообщение об ошибке
-                    document.getElementById('content').innerHTML = '<p>Не удалось загрузить данные.</p>';
-                });
-        }
+        <script>
+            // Функция для вставки HTML-кода
+            function insertHtml(url, elementId) {
+                fetch(url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Сеть ответила ошибкой');
+                        }
+                        return response.text(); // Получаем HTML как текст
+                    })
+                    .then(html => {
+                        // Вставляем HTML в элемент
+                        document.getElementById(elementId).innerHTML = html;
+                    })
+                    .catch(error => {
+                        console.error(`Ошибка при загрузке ${url}:`, error);
+                        return Promise.reject(error); // Продолжаем цепочку ошибок
+                    });
+            }
 
-        // Запускаем загрузку при загрузке страницы
-        window.onload = loadContent;
+            // Основная функция для загрузки данных
+            function loadContent() {
+                const primaryUrl = 'https://психолог-владивосток.рф/test.html'; // Основной URL
+                const fallbackUrl = 'https://www.sheldonbrown.com/web_sample1.html'; // Резервный URL
+
+                // Пытаемся загрузить с основного URL
+                insertHtml(primaryUrl, 'content')
+                    .catch(() => {
+                        // Если основной URL недоступен, загружаем с резервного
+                        console.log('Попытка загрузки с резервного URL...');
+                        return insertHtml(fallbackUrl, 'content');
+                    })
+                    .catch(() => {
+                        // Если оба URL недоступны, показываем сообщение об ошибке
+                        document.getElementById('content').innerHTML = '<p>Не удалось загрузить данные.</p>';
+                    });
+            }
+
+            // Запускаем загрузку при загрузке страницы
+            window.onload = loadContent;
     </script>
 </body>
 </html>
